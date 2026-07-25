@@ -32,7 +32,7 @@ export const HeroSection = {
         </div>
         <div class="trust-item">
           <span class="trust-icon" aria-hidden="true">☏</span>
-          <span>Đặt hàng: Tâm 0764.933.884</span>
+          <span>Đặt hàng: 0764.933.884</span>
         </div>
       </div>
     </section>

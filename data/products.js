@@ -12,7 +12,7 @@ const seedProducts = [
     price: 135000,
     unit: '0.5kg',
     category: 'kho',
-    image: '/images/ca-chi-vang-kho.png',
+    image: '/images/ca-chi-vang-kho.jpg',
     isHot: true
   },
   {
@@ -20,7 +20,7 @@ const seedProducts = [
     price: 160000,
     unit: '0.5kg',
     category: 'kho',
-    image: '/images/ca-bo-kho.png',
+    image: '/images/ca-bo-kho.jpg',
     isHot: true
   },
   {
@@ -28,7 +28,7 @@ const seedProducts = [
     price: 160000,
     unit: '0.5kg',
     category: 'kho',
-    image: '/images/ca-det-kho-tam-vi.png',
+    image: '/images/ca-det-kho-tam-vi.jpg',
     isHot: false
   },
   {
@@ -36,7 +36,7 @@ const seedProducts = [
     price: 148000,
     unit: '0.5kg',
     category: 'kho',
-    image: '/images/ca-det-kho-chua-tam.png',
+    image: '/images/ca-det-kho-chua-tam.jpg',
     isHot: false
   },
   {
@@ -44,7 +44,7 @@ const seedProducts = [
     price: 95000,
     unit: '0.5kg',
     category: 'kho',
-    image: '/images/tep-kho.png',
+    image: '/images/tep-kho.jpg',
     isHot: false
   },
   {
@@ -52,7 +52,7 @@ const seedProducts = [
     price: 800000,
     unit: '0.5kg',
     category: 'kho',
-    image: '/images/muc-kho.png',
+    image: '/images/muc-kho.jpg',
     isHot: true
   },
 
@@ -62,7 +62,7 @@ const seedProducts = [
     price: 135000,
     unit: '0.5kg',
     category: 'rim',
-    image: '/images/ca-com-rim.png',
+    image: '/images/ca-com-rim.jpg',
     isHot: true
   },
   {
@@ -70,7 +70,7 @@ const seedProducts = [
     price: 268000,
     unit: '0.5kg',
     category: 'rim',
-    image: '/images/muc-rim.png',
+    image: '/images/muc-rim.jpg',
     isHot: true
   },
   {
@@ -78,7 +78,7 @@ const seedProducts = [
     price: 135000,
     unit: '0.5kg',
     category: 'rim',
-    image: '/images/ca-bo-rim.png',
+    image: '/images/ca-bo-rim.jpg',
     isHot: false
   },
 
@@ -88,7 +88,7 @@ const seedProducts = [
     price: 95000,
     unit: '1 lít',
     category: 'mam',
-    image: '/images/mam-ca-com-do.png',
+    image: '/images/mam-ca-com-do.jpg',
     isHot: true
   },
   {
@@ -96,7 +96,7 @@ const seedProducts = [
     price: 110000,
     unit: '1 lít',
     category: 'mam',
-    image: '/images/mam-ruoc.png',
+    image: '/images/mam-ruoc.jpg',
     isHot: false
   }
 ];

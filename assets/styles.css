@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap');
+/* Font được nạp bằng <link rel="stylesheet"> trong index.html.
+   Không dùng @import ở đây vì nó ép trình duyệt tải nối tiếp (CSS xong mới tới font). */
 
 :root {
   --bg-soft: #eaf3f8;
@@ -20,10 +21,18 @@
 
 * {
   box-sizing: border-box;
+  /* Bỏ ô xám/xanh nhấp nháy khi chạm trên Android + iOS */
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
+}
+
+/* Nút và link luôn phản hồi ngay khi chạm, không đợi 300ms */
+button,
+a {
+  touch-action: manipulation;
 }
 
 body {
@@ -41,6 +50,9 @@ img {
 .container {
   width: min(1200px, 92vw);
   margin: 0 auto;
+  /* Xoay ngang iPhone tai thỏ: chừa lề để chữ không chui xuống dưới phần khuyết */
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }
 
 /* ---------- Header ---------- */
@@ -166,8 +178,9 @@ img {
   justify-content: center;
   align-items: center;
   gap: 5px;
-  width: 40px;
-  height: 40px;
+  /* 44px là ngưỡng tối thiểu Apple/Google khuyến nghị cho vùng chạm */
+  width: 44px;
+  height: 44px;
   border: 0;
   background: var(--blue-50);
   border-radius: var(--radius-sm);
@@ -394,50 +407,35 @@ img {
   right: -4px;
 }
 
-.slider-progress {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.75);
-  animation: slider-progress linear forwards;
-}
-
-@keyframes slider-progress {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
 .slider-dots {
   display: flex;
   justify-content: center;
-  gap: 7px;
-  padding: 10px 0 2px;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 0 0;
 }
 
+/* Chấm chỉ nhìn thấy 8px nhưng vùng chạm là 24x36px nhờ padding +
+   background-clip: content-box - ngón tay bấm không bị trượt. */
 .slider-dots .dot {
   width: 8px;
   height: 8px;
-  padding: 0;
+  padding: 14px 8px;
+  box-sizing: content-box;
+  background-clip: content-box;
   border: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.45);
+  background-color: rgba(255, 255, 255, 0.45);
   cursor: pointer;
-  transition: background 0.2s ease, width 0.2s ease;
+  transition: background-color 0.2s ease, width 0.2s ease;
 }
 
 .slider-dots .dot.active {
   width: 22px;
   border-radius: 999px;
-  background: var(--white);
+  background-color: var(--white);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .slider-progress {
-    display: none;
-  }
-}
 
 /* ---------- Khối giới thiệu (h1 cho SEO) ---------- */
 
@@ -557,10 +555,12 @@ img {
 
 .search-wrap input {
   width: min(620px, 100%);
-  padding: 13px 16px;
+  padding: 12px 16px;
   border-radius: var(--radius-sm);
   border: 2px solid var(--blue-main);
-  font-size: 0.95rem;
+  /* PHẢI >= 16px: nhỏ hơn là Safari iOS tự phóng to cả trang khi bấm vào ô,
+     người dùng phải chụm tay thu lại - lỗi khó chịu kinh điển trên mobile. */
+  font-size: 16px;
   font-family: inherit;
   box-shadow: 0 4px 12px rgba(20, 150, 215, 0.12);
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
@@ -592,7 +592,7 @@ img {
   flex: 0 0 auto;
   border: 0;
   border-radius: 999px;
-  padding: 11px 18px;
+  padding: 13px 18px;
   font-family: inherit;
   font-weight: 600;
   font-size: 0.88rem;
@@ -739,6 +739,9 @@ img {
   justify-content: center;
   padding: 16px;
   overflow: auto;
+  /* Cuộn hết ảnh thì dừng, không kéo lây sang trang nền phía sau */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   cursor: zoom-out;
 }
 
@@ -747,6 +750,22 @@ img {
   height: auto;
   border-radius: var(--radius-sm);
   cursor: default;
+}
+
+/* Ảnh bảng giá dày chữ: trên màn hình hẹp mà ép vừa bề ngang thì
+   chữ giá bé xíu không đọc được. Cho ảnh rộng hơn màn hình và
+   kéo ngang để đọc - đúng như xem ảnh trong thư viện điện thoại. */
+@media (max-width: 700px) {
+  .lightbox-wide {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 8px;
+  }
+
+  .lightbox-wide img {
+    max-width: none;
+    width: 760px;
+  }
 }
 
 .lightbox-close {
@@ -799,8 +818,8 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   background: rgba(77, 208, 255, 0.15);
   border-radius: 8px;
   transition: background 0.2s ease, transform 0.2s ease;
@@ -841,7 +860,7 @@ img {
 
 .floating-contact {
   position: fixed;
-  right: 16px;
+  right: calc(16px + env(safe-area-inset-right, 0px));
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   z-index: 40;
   display: flex;

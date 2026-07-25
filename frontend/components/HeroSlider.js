@@ -20,9 +20,6 @@ export const HeroSlider = {
     },
     hasMany() {
       return this.slides.length > 1;
-    },
-    interval() {
-      return SLIDE_INTERVAL;
     }
   },
   watch: {
@@ -164,13 +161,6 @@ export const HeroSlider = {
         <button v-if="hasMany" class="slider-arrow prev" @click="select(index - 1)" aria-label="Ảnh trước">‹</button>
         <button v-if="hasMany" class="slider-arrow next" @click="select(index + 1)" aria-label="Ảnh tiếp theo">›</button>
 
-        <div
-          v-if="hasMany && !paused && !zoomed"
-          class="slider-progress"
-          :key="'p-' + index"
-          :style="{ animationDuration: interval + 'ms' }"
-          aria-hidden="true"
-        ></div>
       </div>
 
       <div v-if="hasMany" class="slider-dots" role="tablist" aria-label="Chọn ảnh">
@@ -214,7 +204,7 @@ export const HeroSlider = {
         </div>
         <div class="trust-item">
           <span class="trust-icon" aria-hidden="true">☏</span>
-          <span>Đặt hàng: Tâm 0764.933.884</span>
+          <span>Đặt hàng: 0764.933.884</span>
         </div>
       </div>
     </section>
@@ -222,6 +212,7 @@ export const HeroSlider = {
     <div
       v-if="zoomed && current"
       class="lightbox"
+      :class="{ 'lightbox-wide': current.isMenu }"
       role="dialog"
       aria-modal="true"
       aria-label="Ảnh phóng to"

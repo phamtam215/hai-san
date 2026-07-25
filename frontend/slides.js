@@ -32,21 +32,21 @@ export const SLIDES = [
     isMenu: true
   },
   {
-    image: '/images/muc-kho.png',
+    image: '/images/muc-kho.jpg',
     alt: 'Mực khô loại 1 Đà Nẵng - đặc sản khô PATA',
     title: 'Mực Khô Loại 1',                                  // <-- sửa tiêu đề ở đây
     text: 'Mực câu tươi phơi đủ nắng, thịt dày ngọt tự nhiên. Nướng lên thơm lừng, không chất bảo quản.', // <-- sửa nội dung ở đây
     cta: { label: 'Đặt hàng ngay', href: 'tel:0764933884' }
   },
   {
-    image: '/images/ca-bo-kho.png',
+    image: '/images/ca-bo-kho.jpg',
     alt: 'Cá bò khô tẩm vị - đặc sản khô Đà Nẵng PATA',
     title: 'Cá Bò Khô Tẩm Vị',
     text: 'Đậm đà cay nhẹ, xé sợi ăn liền. Món nhậu và quà biếu được chuộng nhất tại Đà Nẵng.',
     cta: { label: 'Đặt hàng ngay', href: 'tel:0764933884' }
   },
   {
-    image: '/images/ca-com-rim.png',
+    image: '/images/ca-com-rim.jpg',
     alt: 'Cá cơm rim mặn ngọt - đặc sản rim Đà Nẵng PATA',
     title: 'Cá Cơm Rim Mè',
     text: 'Rim mặn ngọt chuẩn vị nhà làm, rắc mè rang thơm. Ăn với cơm nóng là hết veo.',
@@ -55,4 +55,4 @@ export const SLIDES = [
 ];
 
 // Thời gian mỗi slide đứng yên trước khi chuyển (mili giây).
-export const SLIDE_INTERVAL = 3000;
+export const SLIDE_INTERVAL = 2000;
