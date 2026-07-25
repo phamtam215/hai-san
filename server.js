@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
 const Product = require('./models/Product');
 const { seedProducts } = require('./data/products');
+const { CATEGORY_TYPES } = require('./data/categories');
 
 dotenv.config();
 
@@ -60,9 +61,24 @@ if (process.env.VERCEL !== '1') {
     await connectDB();
 
     const count = await Product.countDocuments();
-    if (count === 0) {
+
+    // Data cũ (category 'fresh'/'dried') làm các tab khô/rim/mắm rỗng,
+    // nên tự nạp lại seed khi phát hiện category ngoài danh sách hợp lệ.
+    const staleCount = await Product.countDocuments({
+      category: { $nin: CATEGORY_TYPES }
+    });
+
+    if (count === 0 || staleCount > 0) {
+      if (staleCount > 0) {
+        console.log(`Phát hiện ${staleCount} sản phẩm dùng category cũ - đang nạp lại seed...`);
+        await Product.deleteMany({});
+      }
+
+      // Dọn index mồ côi từ schema cũ trước khi insert, tránh lỗi E11000.
+      await Product.syncIndexes();
+
       await Product.insertMany(seedProducts);
-      console.log('Đã tải sẵn sản phẩm mặc định');
+      console.log(`Đã tải sẵn ${seedProducts.length} sản phẩm mặc định`);
     }
 
     app.listen(PORT, () => {
