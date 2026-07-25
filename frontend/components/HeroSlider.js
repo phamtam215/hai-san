@@ -1,9 +1,11 @@
 import { SLIDES, SLIDE_INTERVAL } from '../slides.js';
+import { Lightbox } from './Lightbox.js';
 
 const SWIPE_THRESHOLD = 40;
 
 export const HeroSlider = {
   emits: ['go-products'],
+  components: { Lightbox },
   data() {
     return {
       slides: SLIDES,
@@ -23,9 +25,9 @@ export const HeroSlider = {
     }
   },
   watch: {
+    // Dừng autoplay khi đang xem ảnh phóng to.
+    // (Khoá cuộn trang và phím Esc do component Lightbox tự lo.)
     zoomed(open) {
-      document.body.style.overflow = open ? 'hidden' : '';
-      // Dừng autoplay khi đang xem ảnh phóng to.
       if (open) this.stop();
       else this.start();
     }
@@ -90,10 +92,7 @@ export const HeroSlider = {
     },
 
     onKeydown(e) {
-      if (e.key === 'Escape' && this.zoomed) {
-        this.zoomed = false;
-        return;
-      }
+      // Đang mở ảnh phóng to thì nhường phím cho Lightbox xử lý.
       if (this.zoomed) return;
       if (e.key === 'ArrowRight') this.select(this.index + 1);
       if (e.key === 'ArrowLeft') this.select(this.index - 1);
@@ -117,7 +116,6 @@ export const HeroSlider = {
     this.stop();
     document.removeEventListener('visibilitychange', this.onVisibility);
     window.removeEventListener('keydown', this.onKeydown);
-    document.body.style.overflow = '';
   },
   template: `
     <section
@@ -152,7 +150,9 @@ export const HeroSlider = {
           </figure>
 
           <div v-if="slide.title || slide.text" class="slide-body">
+            <span v-if="slide.badge" class="slide-badge">{{ slide.badge }}</span>
             <h2 v-if="slide.title" class="slide-title">{{ slide.title }}</h2>
+            <p v-if="slide.price" class="slide-price">{{ slide.price }}</p>
             <p v-if="slide.text" class="slide-text">{{ slide.text }}</p>
             <a v-if="slide.cta" class="slide-cta" :href="slide.cta.href">{{ slide.cta.label }}</a>
           </div>
@@ -209,17 +209,12 @@ export const HeroSlider = {
       </div>
     </section>
 
-    <div
+    <lightbox
       v-if="zoomed && current"
-      class="lightbox"
-      :class="{ 'lightbox-wide': current.isMenu }"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Ảnh phóng to"
-      @click="zoomed = false"
-    >
-      <button class="lightbox-close" @click.stop="zoomed = false" aria-label="Đóng">×</button>
-      <img :src="current.image" :alt="current.alt" @click.stop>
-    </div>
+      :src="current.image"
+      :alt="current.alt"
+      :wide="!!current.isMenu"
+      @close="zoomed = false"
+    ></lightbox>
   `
 };

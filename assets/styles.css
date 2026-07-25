@@ -264,8 +264,9 @@ img {
   width: min(1200px, 92vw);
   margin: 0 auto;
   /* Ảnh nguồn lệch tỉ lệ nhau (0.7 - 1.16, bảng giá thì 1:1) nên khung
-     cố định chiều cao + object-fit contain để không cắt mất chữ. */
-  height: 300px;
+     cố định chiều cao + object-fit contain để không cắt mất chữ.
+     340px đủ chỗ cho nhãn + tiêu đề + giá + mô tả + nút trên điện thoại. */
+  height: 340px;
   touch-action: pan-y;
 }
 
@@ -292,7 +293,7 @@ img {
   position: relative;
   margin: 0;
   flex: 0 0 auto;
-  height: 155px;
+  height: 125px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -336,12 +337,32 @@ img {
   padding: 0 12px;
 }
 
+.slide-badge {
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--orange);
+  color: var(--white);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+}
+
 .slide-title {
   margin: 0;
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(1.05rem, 4.4vw, 1.5rem);
   line-height: 1.2;
   text-shadow: 0 2px 10px rgba(2, 20, 38, 0.28);
+}
+
+.slide-price {
+  margin: 3px 0 0;
+  font-size: clamp(1rem, 4vw, 1.3rem);
+  font-weight: 800;
+  color: #ffe27a;
+  text-shadow: 0 2px 10px rgba(2, 20, 38, 0.3);
 }
 
 .slide-text {
@@ -641,13 +662,25 @@ img {
   box-shadow: 0 16px 32px rgba(4, 33, 56, 0.12);
 }
 
+/* Khung ảnh là <button> để bấm được cả bằng bàn phím -> phải reset style nút. */
 .product-card .img-frame {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  margin: 0;
   aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #eef8ff;
   overflow: hidden;
+  cursor: zoom-in;
+}
+
+.product-card .img-frame:focus-visible {
+  outline: 3px solid var(--blue-main);
+  outline-offset: -3px;
 }
 
 .product-card img {
@@ -655,6 +688,33 @@ img {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.35s ease;
+}
+
+/* Ảnh nhích to khi rê chuột / lúc bấm -> báo cho khách biết bấm được. */
+.product-card .img-frame:hover img {
+  transform: scale(1.06);
+}
+
+.product-card .img-frame:active img {
+  transform: scale(0.98);
+}
+
+.product-card .zoom-badge {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.product-card .img-frame:hover .zoom-badge,
+.product-card .img-frame:focus-visible .zoom-badge {
+  opacity: 1;
+}
+
+/* Máy cảm ứng không có hover: hiện sẵn huy hiệu kính lúp cho khách thấy. */
+@media (hover: none) {
+  .product-card .zoom-badge {
+    opacity: 0.85;
+  }
 }
 
 .card-body {
@@ -743,6 +803,7 @@ img {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   cursor: zoom-out;
+  animation: lightbox-fade 0.2s ease;
 }
 
 .lightbox img {
@@ -750,6 +811,39 @@ img {
   height: auto;
   border-radius: var(--radius-sm);
   cursor: default;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  /* Bung từ nhỏ ra, chậm dần ở cuối cho cảm giác mượt tay. */
+  animation: lightbox-zoom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes lightbox-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lightbox-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Tôn trọng cài đặt "giảm chuyển động" của hệ điều hành. */
+@media (prefers-reduced-motion: reduce) {
+  .lightbox,
+  .lightbox img,
+  .product-card img {
+    animation: none;
+    transition: none;
+  }
+
+  .product-card .img-frame:hover img {
+    transform: none;
+  }
 }
 
 /* Ảnh bảng giá dày chữ: trên màn hình hẹp mà ép vừa bề ngang thì
