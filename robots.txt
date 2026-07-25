@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /api/products
+Allow: /frontend/
+Allow: /assets/
+Allow: /images/
+
+Disallow: /node_modules/
+Disallow: /config/
+
+Sitemap: https://haisandanang.top/sitemap.xml
