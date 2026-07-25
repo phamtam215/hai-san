@@ -3,8 +3,6 @@
 // Sau khi sửa file này, chạy `npm run seed` để đẩy lên MongoDB.
 const { CATEGORY_TYPES } = require('./categories');
 
-const PLACEHOLDER = '/images/placeholder-product.svg';
-
 const seedProducts = [
   // ----- Đặc sản khô -----
   {
